@@ -1,0 +1,188 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import SystemCard from "../components/SystemCard.astro";
+import HeroSystem from "../components/HeroSystem.astro";
+import Marquee from "../components/Marquee.astro";
+import { p } from "../lib/site";
+
+const systems = (await getCollection("systems")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+// 首页只精选 4 个最能代表广度与差异的实践，其余进列表页
+const homeOrder = [
+  "knowledge-portal",
+  "ssr-suite",
+  "critical-conversation-lab",
+  "ai-creation-contest",
+];
+const homeSystems = systems
+  .filter((s) => homeOrder.includes(s.id))
+  .sort((a, b) => homeOrder.indexOf(a.id) - homeOrder.indexOf(b.id));
+
+const layers = [
+  {
+    key: "td",
+    num: "01",
+    kicker: "人才发展",
+    title: "十余年，只认真一件事：让人成长",
+    desc: "越往前走越确信：人很难靠几次培训被改变，而是在真实的挑战和被信任的关系里长出来的。所以做人才培养，我看重的从来不是排了多少课，而是有没有搭好成长的阶梯，并在关键时刻真诚地扶一把。",
+    tags: ["培养体系", "领导力提升", "组织诊断"],
+  },
+  {
+    key: "build",
+    num: "02",
+    kicker: "AI 实践",
+    title: "用 AI 把想法做成能用的产品",
+    desc: "我把 AI 当自己的程序员，指挥它写代码、对接 API 接口，把测评、资讯、知识库做成日常在用的东西，也带没有技术背景的同事一起做。",
+    tags: ["AI 自动化", "独立做产品", "带教推广"],
+  },
+  {
+    key: "coach",
+    num: "03",
+    kicker: "教练与人",
+    title: "懂业务，也听得懂一个人",
+    desc: "作为 ICF 认证教练，我做过上百小时深度对话，习惯走到一线，听懂一个人真实的卡点，也听懂组织里没说出口的问题。",
+    tags: ["ICF 教练", "关键对话", "一线倾听"],
+  },
+];
+
+const road = [
+  { yr: "2018–2021", co: "爱奇艺", rl: "HRBP / 培训 / 组织文化", logo: "/co/iqiyi.svg", intro: "在线视频与娱乐内容平台" },
+  { yr: "2021–2022", co: "小红书", rl: "人才发展", logo: "/co/xhs.svg", glyph: true, intro: "生活方式内容社区" },
+  { yr: "2022—今", co: "心动游戏", rl: "人才发展 · 近 2000 人", logo: "/co/xd.svg", intro: "游戏研发与发行 · TapTap 母公司" },
+];
+---
+
+<BaseLayout>
+  <!-- 1 · Hero（品牌色场域） -->
+  <section class="hero-band">
+    <div class="hero-glow" aria-hidden="true"></div>
+    <div class="wrap hero hero-grid">
+      <div class="hero-copy">
+        <span class="eyebrow"><span class="eb-dot" aria-hidden="true"></span>组织与人才发展 × AI 实践 × ICF 认证教练 · 上海</span>
+        <h1>
+          把重复的工作任务<span style="white-space:nowrap">交给 AI</span>，<br />
+          <span style="white-space:nowrap">把「<em>人</em>」留给自己。</span>
+        </h1>
+        <p class="lede">
+          我有十余年组织与人才发展的工作经历。教练让我更懂得理解人，我也用 AI 把一个个想法做成真正能用的产品——
+          <strong>不只是自己做，还带着一群没有技术背景的 HR 一起做。</strong>
+        </p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href={p("/systems/")}>看看这些实践 <span class="arrow">→</span></a>
+          <a class="btn btn-ghost" href={p("/about/")}>关于我</a>
+          <button type="button" class="hero-mail" data-contact>随时联系我 <span class="arrow">→</span></button>
+        </div>
+      </div>
+      <HeroSystem />
+    </div>
+    <div class="wrap"><Marquee /></div>
+  </section>
+
+  <!-- 2 · 我相信（一句信念） -->
+  <section class="wrap belief-sec reveal">
+    <div class="belief-one">
+      <p class="belief-line">我相信每个人身上都有自我生长的力量，而被听见、被信任，会让它慢慢长出来。</p>
+    </div>
+  </section>
+
+  <!-- 3 · 我怎么工作 -->
+  <section class="wrap section reveal">
+    <div class="sec-head">
+      <span class="sec-index">01</span>
+      <h2>我怎么工作</h2>
+      <span class="hint">人才发展 · AI 实践 · 教练</span>
+      <img class="sec-stamp" src={p("/me/pose-build.jpg")} alt="熙熙在电脑前把想法做成产品" loading="lazy" />
+    </div>
+    <div class="layers">
+      {
+        layers.map((l) => (
+          <div class={`layer layer-${l.key}`}>
+            <div class="licon" aria-hidden="true">
+              {l.key === "td" && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <rect x="9" y="3" width="6" height="6" rx="1.5" /><rect x="3" y="15" width="6" height="6" rx="1.5" /><rect x="15" y="15" width="6" height="6" rx="1.5" />
+                  <path d="M12 9v3M12 12H6v3M12 12h6v3" />
+                </svg>
+              )}
+              {l.key === "build" && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <rect x="3" y="3" width="7" height="7" rx="2" /><rect x="14" y="3" width="7" height="7" rx="2" />
+                  <rect x="3" y="14" width="7" height="7" rx="2" /><rect x="14" y="14" width="7" height="7" rx="2" />
+                </svg>
+              )}
+              {l.key === "coach" && (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6">
+                  <path d="M4 5.5h16a1 1 0 0 1 1 1V15a1 1 0 0 1-1 1H9.5l-4.2 3v-3H4a1 1 0 0 1-1-1V6.5a1 1 0 0 1 1-1z" />
+                  <path d="M8 10.5h.01M12 10.5h.01M16 10.5h.01" stroke-linecap="round" />
+                </svg>
+              )}
+            </div>
+            <span class="ghost-num">{l.num}</span>
+            <div class="lkicker">{l.kicker}</div>
+            <h3>{l.title}</h3>
+            <p>{l.desc}</p>
+            <div class="tags">{l.tags.map((t) => <span>{t}</span>)}</div>
+          </div>
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 2 · 我做的东西（精选 4 个） -->
+  <section class="wrap section reveal">
+    <div class="sec-head">
+      <span class="sec-index">02</span>
+      <h2>我做的东西</h2>
+      <span class="hint">精选四个，点进去看「问题—做法—验证—边界」</span>
+    </div>
+    <div class="bento">
+      {homeSystems.map((s) => <SystemCard sys={s} />)}
+    </div>
+    <p class="grid-more"><a href={p("/systems/")}>查看全部 {systems.length} 个 AI 实践 →</a></p>
+  </section>
+
+  <!-- 3 · 工作经历 -->
+  <section class="wrap section reveal">
+    <div class="sec-head">
+      <span class="sec-index">03</span>
+      <h2>工作经历</h2>
+      <span class="hint">只放最近三段，完整版在简历页</span>
+    </div>
+    <div class="road">
+      {
+        road.map((r) => (
+          <div class="stop">
+            <span class="co-logo"><img class={r.glyph ? "glyph" : ""} src={p(r.logo)} alt={r.co} loading="lazy" /></span>
+            <div class="yr">{r.yr}</div>
+            <div class="co">{r.co}</div>
+            <div class="rl">{r.rl}</div>
+            <p class="co-intro">{r.intro}</p>
+          </div>
+        ))
+      }
+    </div>
+    <p class="road-more"><a href={p("/resume/")}>看完整简历与认证 →</a></p>
+  </section>
+
+  <!-- 9 · 联系 -->
+  <section class="wrap section reveal">
+    <div class="cta">
+      <img class="cta-img" src={p("/me/pose-listen.jpg")} alt="熙熙专注倾听的样子" loading="lazy" />
+      <div class="cta-text">
+        <h2>想聊聊，随时联系我</h2>
+        <p>人才发展、AI 要怎么在组织里落地，或者一次教练对话——都欢迎。</p>
+        <div class="cta-actions">
+          <button type="button" class="btn btn-primary" data-contact>随时联系我 <span class="arrow">→</span></button>
+          <a class="btn btn-ghost" href={p("/about/")}>更多关于我</a>
+        </div>
+      </div>
+      <div class="cta-qr">
+        <img src={p("/me/wechat-qr.png")} alt="熙熙的微信二维码，扫码加好友" width="108" height="108" loading="lazy" />
+        <span>微信扫码加我</span>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+

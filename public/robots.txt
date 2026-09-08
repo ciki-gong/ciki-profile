@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://hiciki-1029.github.io/ciki-profile/sitemap-index.xml

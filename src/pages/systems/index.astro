@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import SystemCard from "../../components/SystemCard.astro";
+import Crumb from "../../components/Crumb.astro";
+
+const systems = (await getCollection("systems")).sort(
+  (a, b) => a.data.order - b.data.order
+);
+---
+
+<BaseLayout
+  title="AI实践"
+  description="龚文熙的 AI 实践记录：个人知识库门户、关键对话 Lab、校招生培养系统、HR 情报中台、DISC 在线测评，以及带团队一起做 AI 的方法。"
+>
+  <section class="wrap page-head">
+    <Crumb current="AI 实践" />
+    <span class="eyebrow">AI PRACTICE · 实践记录</span>
+    <h1>我用 AI 重做的几件事</h1>
+    <p class="sub">
+      每件事都按同一个顺序写：遇到什么<strong>问题</strong>、我<strong>怎么做</strong>的、拿什么<strong>验证</strong>、<strong>边界</strong>在哪。涉及公司的部分都做了脱敏。
+    </p>
+  </section>
+
+  <section class="wrap section" style="padding-top:32px;">
+    <div class="bento">
+      {systems.map((s) => <SystemCard sys={s} />)}
+    </div>
+  </section>
+</BaseLayout>

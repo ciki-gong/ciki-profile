@@ -1,0 +1,34 @@
+---
+import { p, B } from "../lib/site";
+const path = Astro.url.pathname;
+const rel = (B && path.startsWith(B) ? path.slice(B.length) : path) || "/";
+const nav = [
+  { href: "/about/", label: "关于我" },
+  { href: "/systems/", label: "AI实践", key: true },
+  { href: "/resume/", label: "工作经历" },
+];
+const isActive = (href: string) =>
+  href === "/" ? rel === "/" : rel.startsWith(href);
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={p("/")} aria-label="熙熙 · 回到首页">
+      <img class="brand-mark" src={p("/favicon.svg")} alt="" width="30" height="30" />
+      熙熙<span class="en">Ciki 的小宇宙</span>
+    </a>
+    <nav class="site-nav" aria-label="主导航">
+      {
+        nav.map((n) => (
+          <a
+            href={p(n.href)}
+            class={n.key ? "nav-key" : undefined}
+            aria-current={isActive(n.href) ? "page" : undefined}
+          >
+            {n.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
